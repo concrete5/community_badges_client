@@ -135,7 +135,12 @@ class ApiClient
         string $method = "POST"
     ): array
     {
+        $method = strtoupper($method);
         if ($this->hasValidConfiguration()) {
+            $requestBody = json_encode($payload);
+            if ($method === 'GET') {
+                $requestBody = null;
+            }
             /** @noinspection PhpComposerExtensionStubsInspection */
             $request = new Request(
                 $method,
@@ -143,7 +148,7 @@ class ApiClient
                 [
                     "Content-Type" => "application/json"
                 ],
-                @json_encode($payload)
+                $requestBody
             );
 
             try {
