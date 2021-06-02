@@ -1,5 +1,5 @@
 {
-  "name": "portlandlabs/community_badges_client",
+  "name": "concrete5/community_badges_client",
   "description": "Assign badges remotely to the community site.",
   "type": "concrete5-package",
   "license": "MIT",
