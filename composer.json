@@ -1,0 +1,16 @@
+{
+  "name": "portlandlabs/community_badges_client",
+  "description": "Assign badges remotely to the community site.",
+  "type": "concrete5-package",
+  "license": "MIT",
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "PortlandLabs\\CommunityBadgesClient\\": "src/PortlandLabs/CommunityBadgesClient"
+    }
+  },
+  "require": {
+    "kamermans/guzzle-oauth2-subscriber": "^1.0"
+  }
+}

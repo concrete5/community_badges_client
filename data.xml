@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concrete5-cif version="1.0">
+    <singlepages>
+        <page name="Community Badges Client" path="/dashboard/community_badges_client"
+              filename="/dashboard/community_badges_client.php" pagetype=""
+              description=""
+              package="community_badges_client"/>
+        <page name="Settings" path="/dashboard/community_badges_client/settings"
+              filename="/dashboard/community_badges_client/settings.php"
+              pagetype=""
+              description=""
+              package="community_badges_client"/>
+    </singlepages>
+</concrete5-cif>
