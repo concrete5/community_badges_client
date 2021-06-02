@@ -143,7 +143,7 @@ class ApiClient
                 [
                     "Content-Type" => "application/json"
                 ],
-                @json_encode($payload)
+                $payload ? @json_encode($payload) : null
             );
 
             try {
