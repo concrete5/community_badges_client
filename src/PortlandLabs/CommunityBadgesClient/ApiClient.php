@@ -131,13 +131,14 @@ class ApiClient
      */
     public function doRequest(
         string $path,
-        array $payload = []
+        array $payload = [],
+        string $method = "POST"
     ): array
     {
         if ($this->hasValidConfiguration()) {
             /** @noinspection PhpComposerExtensionStubsInspection */
             $request = new Request(
-                "POST",
+                $method,
                 $this->getBaseUrl()->withPath($path),
                 [
                     "Content-Type" => "application/json"
@@ -155,20 +156,15 @@ class ApiClient
 
                 return $jsonResponse;
 
-            } catch (Exception $e) {
-                // log the original error
-                $this->logger->error($e->getMessage());
-
-                throw new CommunicatorError();
-
             } catch (GuzzleException $e) {
                 // log the original error
                 $this->logger->error($e->getMessage());
-
-                throw new CommunicatorError();
+                throw new CommunicatorError($e->getMessage());
+            } catch (Exception $e) {
+                // log the original error
+                $this->logger->error($e->getMessage());
+                throw new CommunicatorError($e->getMessage());
             }
-        } else {
-            throw new InvalidConfiguration();
         }
     }
 }

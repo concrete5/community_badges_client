@@ -26,6 +26,18 @@ class Achievements
         $this->user = $user;
     }
 
+    public function getList()
+    {
+        try {
+            $response = $this->client->doRequest("/api/v1/community_badges", [], "GET");
+            return $response;
+        } catch (CommunicatorError $e) {
+            return $e;
+        } catch (InvalidConfiguration $e) {
+            return $e;
+        }
+    }
+
     public function assign(
         string $handle
     ): bool

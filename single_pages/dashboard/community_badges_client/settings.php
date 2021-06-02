@@ -24,7 +24,7 @@ $token = $app->make(Token::class);
 
 ?>
 
-<form action="#" method="post">
+<form action="<?=$view->action('submit')?>" method="post">
     <?php echo $token->output("update_settings"); ?>
 
     <fieldset>
@@ -58,3 +58,13 @@ $token = $app->make(Token::class);
         </div>
     </div>
 </form>
+
+<?php if ($showTestConnectionButton) { ?>
+<form action="<?=$view->action('test_connection')?>" method="post">
+    <?php echo $token->output("test_connection"); ?>
+    <fieldset>
+        <legend><?=t('Test Connection')?></legend>
+        <button class="btn-block btn btn-outline-secondary" type="submit" name="testConnection"><?=t('Click to test your connection to the badges API.')?></button>
+    </fieldset>
+</form>
+<?php } ?>
