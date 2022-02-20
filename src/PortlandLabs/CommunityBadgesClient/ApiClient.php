@@ -135,41 +135,43 @@ class ApiClient
         string $method = "POST"
     ): array
     {
+        if (!$this->hasValidConfiguration()) {
+            throw new InvalidConfiguration();
+        }
         $method = strtoupper($method);
-        if ($this->hasValidConfiguration()) {
+        if ($method === 'GET') {
+            $requestBody = null;
+        } else {
             $requestBody = json_encode($payload);
-            if ($method === 'GET') {
-                $requestBody = null;
-            }
+        }
+        /** @noinspection PhpComposerExtensionStubsInspection */
+        $request = new Request(
+            $method,
+            $this->getBaseUrl()->withPath($path),
+            [
+                "Content-Type" => "application/json"
+            ],
+            $requestBody
+        );
+
+        try {
+            $response = $this->getClient()->send($request);
+
+            $rawResponse = $response->getBody()->getContents();
+
             /** @noinspection PhpComposerExtensionStubsInspection */
-            $request = new Request(
-                $method,
-                $this->getBaseUrl()->withPath($path),
-                [
-                    "Content-Type" => "application/json"
-                ],
-                $requestBody
-            );
+            $jsonResponse = @json_decode($rawResponse, true);
 
-            try {
-                $response = $this->getClient()->send($request);
+            return $jsonResponse;
 
-                $rawResponse = $response->getBody()->getContents();
-
-                /** @noinspection PhpComposerExtensionStubsInspection */
-                $jsonResponse = @json_decode($rawResponse, true);
-
-                return $jsonResponse;
-
-            } catch (GuzzleException $e) {
-                // log the original error
-                $this->logger->error($e->getMessage());
-                throw new CommunicatorError($e->getMessage());
-            } catch (Exception $e) {
-                // log the original error
-                $this->logger->error($e->getMessage());
-                throw new CommunicatorError($e->getMessage());
-            }
+        } catch (GuzzleException $e) {
+            // log the original error
+            $this->logger->error($e->getMessage());
+            throw new CommunicatorError($e->getMessage());
+        } catch (Exception $e) {
+            // log the original error
+            $this->logger->error($e->getMessage());
+            throw new CommunicatorError($e->getMessage());
         }
     }
 }
